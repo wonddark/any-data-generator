@@ -1,6 +1,6 @@
 import {Button, ConfigProvider, Input, Modal, Select} from "antd";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faEye, faFileCsv, faPlus, faTrashCan} from "@fortawesome/free-solid-svg-icons";
+import {faDownload, faEye, faFileCsv, faPlus, faTrashCan} from "@fortawesome/free-solid-svg-icons";
 import {useRef, useState} from "react";
 import {uid} from 'uid';
 import {generator} from "../utils/generator.ts";
@@ -14,7 +14,8 @@ function Comp01() {
     const [numberItems, setNumberItems] = useState(0)
     const [data, setData] = useState<Record<string, string | number | boolean>[]>([])
     const [showResult, setShowResult] = useState<boolean>(false)
-    const linkRef = useRef<HTMLAnchorElement>(null);
+    const csvLinkRef = useRef<HTMLAnchorElement>(null);
+    const jsonLinkRef = useRef<HTMLAnchorElement>(null);
 
     return (
         <ConfigProvider theme={{
@@ -130,17 +131,28 @@ function Comp01() {
                                 </tbody>
                             </table>
                         </div>
-                        <a href="/" hidden ref={linkRef} aria-hidden>Download csv</a>
+                        <a href="/" hidden ref={csvLinkRef} aria-hidden>Download csv</a>
                         <Button type="primary" icon={<FontAwesomeIcon icon={faFileCsv} />} onClick={() => {
                             const csv = json2csv(data)
                             let csvContent = `data:text/csv;charset:utf-8,${csv}`
                             const encodedURL = encodeURI(csvContent)
-                            if (linkRef.current) {
-                                linkRef.current.setAttribute("href", encodedURL);
-                                linkRef.current.setAttribute("download", "data.csv");
-                                linkRef.current.click();
+                            if (csvLinkRef.current) {
+                                csvLinkRef.current.setAttribute("href", encodedURL);
+                                csvLinkRef.current.setAttribute("download", "data.csv");
+                                csvLinkRef.current.click();
                             }
                         }} className="mt-3">Export CSV</Button>
+                        <a href="/" hidden ref={jsonLinkRef} aria-hidden>Download json</a>
+                        <Button type="primary" icon={<FontAwesomeIcon icon={faDownload} />} onClick={() => {
+                            const json = JSON.stringify(data, null, 2)
+                            let jsonContent = `data:text/json;charset:utf-8,${json}`
+                            const encodedURL = encodeURI(jsonContent)
+                            if (jsonLinkRef.current) {
+                                jsonLinkRef.current.setAttribute("href", encodedURL);
+                                jsonLinkRef.current.setAttribute("download", "data.json");
+                                jsonLinkRef.current.click();
+                            }
+                        }} className="mt-3">Export JSON</Button>
                     </div>
                 </Modal>
             </div>
