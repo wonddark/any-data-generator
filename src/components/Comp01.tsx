@@ -12,7 +12,7 @@ function Comp01() {
     const [previewObject, setPreviewObject] = useState<any>({})
     const [currentProperty, setCurrentProperty] = useState<{ name: string; type: string }>({name: '', type: ''})
     const [numberItems, setNumberItems] = useState(0)
-    const [data, setData] = useState<Record<string, string | number | object | boolean>[]>([])
+    const [data, setData] = useState<Record<string, string | number | boolean>[]>([])
     const [showResult, setShowResult] = useState<boolean>(false)
     const linkRef = useRef<HTMLAnchorElement>(null);
 
