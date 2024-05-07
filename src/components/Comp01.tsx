@@ -4,7 +4,7 @@ import {faDownload, faEye, faFileCsv, faPlus, faTrashCan} from "@fortawesome/fre
 import {useRef, useState} from "react";
 import {uid} from 'uid';
 import {generator} from "../utils/generator.ts";
-import {DataTypeMap} from "../types/data-type-map.ts";
+import {dataOptions} from "../types/data-type-map.ts";
 import {json2csv} from 'json-2-csv';
 
 function Comp01() {
@@ -48,7 +48,7 @@ function Comp01() {
                                        ...prevState,
                                        name: value
                                    }))}/>
-                            <Select options={DataTypeMap} placeholder="Select value type" className="px-0.5"
+                            <Select options={dataOptions} placeholder="Select value type" className="px-0.5"
                                     value={currentProperty.type}
                                     onChange={(value) => {
                                         setCurrentProperty(prevState => ({...prevState, type: value}))
@@ -70,7 +70,7 @@ function Comp01() {
                                             return prevState
                                         })
                                     }} className="px-0.5"/>
-                                    <Select defaultValue={item.type} options={DataTypeMap}
+                                    <Select defaultValue={item.type} options={dataOptions}
                                             placeholder="Select value type" onChange={(value) => {
                                         setProperties(prevState => {
                                             const copy = [...prevState]
@@ -132,7 +132,7 @@ function Comp01() {
                             </table>
                         </div>
                         <a href="/" hidden ref={csvLinkRef} aria-hidden>Download csv</a>
-                        <Button type="primary" icon={<FontAwesomeIcon icon={faFileCsv} />} onClick={() => {
+                        <Button type="primary" icon={<FontAwesomeIcon icon={faFileCsv}/>} onClick={() => {
                             const csv = json2csv(data)
                             let csvContent = `data:text/csv;charset:utf-8,${csv}`
                             const encodedURL = encodeURI(csvContent)
@@ -143,7 +143,7 @@ function Comp01() {
                             }
                         }} className="mt-3">Export CSV</Button>
                         <a href="/" hidden ref={jsonLinkRef} aria-hidden>Download json</a>
-                        <Button type="primary" icon={<FontAwesomeIcon icon={faDownload} />} onClick={() => {
+                        <Button type="primary" icon={<FontAwesomeIcon icon={faDownload}/>} onClick={() => {
                             const json = JSON.stringify(data, null, 2)
                             let jsonContent = `data:text/json;charset:utf-8,${json}`
                             const encodedURL = encodeURI(jsonContent)
